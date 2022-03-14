@@ -6,7 +6,7 @@
 # @FileName: layers.py
 '''
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 
 def cnn_layer(inputs, filter_size, strides, padding, random_base, l2_reg, active_func=None, scope_name="conv"):
@@ -15,14 +15,14 @@ def cnn_layer(inputs, filter_size, strides, padding, random_base, l2_reg, active
         shape=filter_size,
         # initializer=tf.random_normal_initializer(mean=0., stddev=1.0),
         initializer=tf.random_uniform_initializer(-random_base, random_base),
-        regularizer=tf.contrib.layers.l2_regularizer(l2_reg)
+        regularizer=tf.keras.regularizers.l2(l2_reg)
     )
     b = tf.get_variable(
         name='softmax_b' + scope_name,
         shape=[filter_size[-1]],
         # initializer=tf.random_normal_initializer(mean=0., stddev=1.0),
         initializer=tf.random_uniform_initializer(-random_base, random_base),
-        regularizer=tf.contrib.layers.l2_regularizer(l2_reg)
+        regularizer=tf.keras.regularizers.l2(l2_reg)
     )
     x = tf.nn.conv2d(inputs, w, strides, padding) + b
     if active_func is None:
@@ -149,7 +149,7 @@ def softmax_layer(inputs, n_hidden, random_base, keep_prob, l2_reg, n_class, sco
         shape=[n_class],
         initializer=tf.random_normal_initializer(mean=0., stddev=np.sqrt(2. / (n_class))),
         # initializer=tf.random_uniform_initializer(-random_base, random_base),
-        regularizer=tf.contrib.layers.l2_regularizer(l2_reg)
+        regularizer=tf.keras.regularizers.l2(l2_reg)
     )
     with tf.name_scope('softmax'):
         outputs = tf.nn.dropout(inputs, keep_prob=keep_prob)

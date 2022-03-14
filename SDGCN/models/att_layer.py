@@ -3,7 +3,7 @@
 
 
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 
 def softmax_with_len(inputs, length, max_len):
@@ -37,7 +37,7 @@ def bilinear_attention_layer(inputs, attend, length, n_hidden, l2_reg, random_ba
         # initializer=tf.random_normal_initializer(mean=0., stddev=np.sqrt(2. / (n_hidden + n_hidden))),
         initializer=tf.random_uniform_initializer(-random_base, random_base),
         # initializer=tf.random_uniform_initializer(-np.sqrt(6.0 / (n_hidden + n_hidden)), np.sqrt(6.0 / (n_hidden + n_hidden))),
-        regularizer=tf.contrib.layers.l2_regularizer(l2_reg)
+        regularizer=tf.keras.regularizers.l2(l2_reg)
     )
     inputs = tf.reshape(inputs, [-1, n_hidden])
     tmp = tf.reshape(tf.matmul(inputs, w), [-1, max_len, n_hidden])

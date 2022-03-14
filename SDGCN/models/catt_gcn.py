@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #SDGCN
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import numpy as np
 from models.nn_layer import dynamic_rnn, softmax_layer, bi_dynamic_rnn, reduce_mean_with_len,WXA_Relu,WXbA_Relu
 from models.att_layer import dot_produce_attention_layer, bilinear_attention_layer, mlp_attention_layer, Mlp_attention_layer
